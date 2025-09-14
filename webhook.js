@@ -14,7 +14,7 @@ function verifySignature(req) {
   return signature === digest;
 }
 
-app.post("/git-webhook", (req, res) => {
+app.post(['/git-webhook', '/git-webhook/'], (req, res) => {
 //   if (!verifySignature(req)) {
 //     res.status(403).send("Forbidden");
 //     return;
