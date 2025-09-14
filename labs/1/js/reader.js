@@ -12,7 +12,7 @@ class Content {
         this.updatedAt.innerHTML = Messages.UPDATED_AT(this.getFormattedTime());
         body.appendChild(this.updatedAt);
 
-        this.readerContainer = new ReaderNoteContainer(body);
+        this.readerContainer = new ReaderNoteContainer(body, false);
 
         const backButton = new RedirectButton(Messages.BACK, [CSS.BACK_BUTTON], Pages.INDEX);
         backButton.render(body);

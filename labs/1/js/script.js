@@ -22,8 +22,9 @@ export class RedirectButton extends Button {
 }
 
 export class NoteContainer {
-  constructor(parent) {
+  constructor(parent, isReadOnly = true) {
     this.parent = parent;
+    this.isReadOnly = isReadOnly
     this.container = document.createElement("div");
     this.container.classList.add(CSS.NOTE_CONTAINER);
     this.notes = [];
@@ -32,11 +33,11 @@ export class NoteContainer {
 
   loadNotes(notesArray) {
     this.clear();
-    notesArray.forEach((text, index) => this.addNote(text, index));
+    notesArray.forEach((text) => this.addNote(text));
   }
 
-  addNote(text = "", index = this.notes.length) {
-    const note = new Note(text, index);
+  addNote(text = "") {
+    const note = new Note(text, this.isReadOnly);
     this.notes.push(note);
     note.render(this.container);
     return note;
@@ -57,12 +58,14 @@ clear() {
 }
 
 class Note {
-  constructor(text, index) {
+  constructor(text, isReadOnly) {
     this.container = document.createElement("div");
     this.container.classList.add(CSS.NOTE)
-    this.index = index
     this.textarea = document.createElement("textarea");
     this.textarea.value = text;
+    if (isReadOnly) {
+        this.textarea.readOnly = true;
+    }
     this.container.appendChild(this.textarea);
   }
 
