@@ -15,10 +15,10 @@ function verifySignature(req) {
 }
 
 app.post(['/git-webhook', '/git-webhook/'], (req, res) => {
-//   if (!verifySignature(req)) {
-//     res.status(403).send("Forbidden");
-//     return;
-//   }
+  if (!verifySignature(req)) {
+    res.status(403).send("Forbidden");
+    return;
+  }
 
   exec("cd /var/www/COMP4537 && git pull origin main", (err, stdout, stderr) => {
     if (err) {
