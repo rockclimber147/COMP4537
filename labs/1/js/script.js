@@ -22,7 +22,7 @@ export class RedirectButton extends Button {
 }
 
 export class NoteContainer {
-  constructor(parent, isReadOnly = true) {
+  constructor(parent, isReadOnly = false) {
     this.parent = parent;
     this.isReadOnly = isReadOnly
     this.container = document.createElement("div");
