@@ -1,0 +1,37 @@
+.remove-button {
+    background-color: rgb(255, 58, 58);
+}
+
+.add-button {
+    margin: 10px;
+    background-color: rgb(23, 255, 23);
+}
+
+.back-button {
+    margin: 10px;
+}
+
+.text-box {
+    background-color: blue;
+}
+
+textarea {
+  background-color: lightblue;
+  resize: none;               
+  width: 50%;              
+  min-height: 3em;            
+  padding: 0.5em;             
+  border: 1px solid #888;     
+  border-radius: 6px; 
+}
+
+.note-container {
+  align-items: center;      
+  height: 100%;             
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;  
+}
