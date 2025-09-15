@@ -9,7 +9,7 @@ class Content {
         const body = document.body;
 
         this.updatedAt = document.createElement("div");
-        this.updatedAt.innerHTML = Messages.UPDATED_AT(this.getFormattedTime());
+        this.updatedAt.innerHTML = Messages.STORED_AT(this.getFormattedTime());
         body.appendChild(this.updatedAt);
 
         this.writerElement = document.createElement("div")
