@@ -11,6 +11,7 @@ class DateTimeHelper {
 class FileHelper {
     static BASE_DIR_NAME = "files"
     static MAX_FILES = 5
+    static MAX_FILE_SIZE = 5 * 1024 * 1024
 
     constructor() {
         this.BASE_DIR = path.resolve(FileHelper.BASE_DIR_NAME);
@@ -21,7 +22,7 @@ class FileHelper {
     }
 
     readFile(fileName) {
-        const filePath = path.join(this.BASE_DIR, fileName);
+        const filePath = this.getPath(fileName);
         try {
             const data = fs.readFileSync(filePath, "utf-8");
             return data;
@@ -33,7 +34,21 @@ class FileHelper {
 
     writeFile(content, fileName = "file.txt") {
         if (!this.fileExists(fileName) && !this.canAddFile()) return false
-        const filePath = path.join(this.BASE_DIR, fileName);
+        const filePath = this.getPath(fileName)
+
+        if (this.fileExists(fileName)) {
+            try {
+                const stats = fs.statSync(filePath);
+                if (stats.size + Buffer.byteLength(content, "utf-8") > FileHelper.MAX_FILE_SIZE) {
+                    console.warn(`Cannot append to "${fileName}": file size limit exceeded`);
+                    return false;
+                }
+            } catch (err) {
+                console.error(`Error checking size of file ${fileName}:`, err.message);
+                return false;
+            }
+        }
+
         try {
             fs.appendFileSync(filePath, content, "utf-8");
             console.log(`File ${fileName} appended successfully.`);
@@ -44,8 +59,7 @@ class FileHelper {
         }
     }
 
-    fileExists(fileName) {
-        const filePath = path.join(this.BASE_DIR, fileName);
+    fileExists(filePath) {
         try {
             return fs.existsSync(filePath) && fs.statSync(filePath).isFile();
         } catch (err) {
@@ -63,6 +77,12 @@ class FileHelper {
             console.error("Error checking files in base directory:", err.message);
             return false;
         }
+    }
+
+    getPath(fileName) {
+        const safeFileName = path.basename(fileName);
+        const filePath = path.join(this.BASE_DIR, safeFileName);
+        return filePath
     }
 }
 
