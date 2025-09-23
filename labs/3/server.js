@@ -1,13 +1,34 @@
-const http = require("http")
-const dateTimeUtils = require("./modules/utils");
-const dateTimeHelper = dateTimeUtils.dateTime;
-const Messages = require(`./lang/en/en`)
+const http = require("http");
+const url = require("url")
+const PORT = 3001;
 
-const PORT = process.env.PORT || 3001;
+const Messages = require("./lang/en/en")
+const dateUtils = require("./modules/utils")
+const dateHelper = dateUtils.dateTime
+const routes = {
+    "GET": {
+        "/getDate": (req, res, query) => {
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.end(`${Messages.WELCOME.replace(`%1`, query["name"])} ${dateHelper.getDate()}`);
+        },
+    },
+    "POST": {
 
-http.createServer(function (req, res) {
+    }
+};
 
-}).listen(PORT)
+const server = http.createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true);
+    const pathname = parsedUrl.pathname;
+    const query = parsedUrl.query;
 
-console.log(dateTimeHelper.getDate())
-console.log(Messages.WELCOME)
+    const handler = routes[req.method]?.[pathname];
+    if (handler) {
+        handler(req, res, query);
+    } else {
+        res.writeHead(404, { "Content-Type": "text/plain" });
+        res.end("404 Not Found");
+    }
+});
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
