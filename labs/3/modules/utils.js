@@ -20,11 +20,11 @@ class FileHelper {
         }
     }
 
-    writeFile(content, fileName="file.txt") {
+    writeFile(content, fileName = "file.txt") {
         const filePath = path.resolve(fileName);
         try {
-            fs.writeFileSync(filePath, content, "utf-8");
-            console.log(`File ${fileName} written successfully.`);
+            fs.appendFileSync(filePath, content, "utf-8");
+            console.log(`File ${fileName} appended successfully.`);
             return true;
         } catch (err) {
             console.error(`Error writing file ${fileName}:`, err.message);
