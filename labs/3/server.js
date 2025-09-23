@@ -1,6 +1,6 @@
 const http = require("http");
 const url = require("url")
-const PORT = 3001;
+const PORT = 3002;
 
 const Messages = require("./lang/en/en")
 const Utils = require("./modules/utils")
