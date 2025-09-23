@@ -14,7 +14,7 @@ class FileHelper {
     static MAX_FILE_SIZE = 5 * 1024 * 1024
 
     constructor() {
-        this.BASE_DIR = path.resolve(FileHelper.BASE_DIR_NAME);
+        this.BASE_DIR = path.resolve(__dirname, `../../${FileHelper.BASE_DIR_NAME}`);
 
         if (!fs.existsSync(this.BASE_DIR)) {
             fs.mkdirSync(this.BASE_DIR, { recursive: true });
@@ -33,10 +33,10 @@ class FileHelper {
     }
 
     writeFile(content, fileName = "file.txt") {
-        if (!this.fileExists(fileName) && !this.canAddFile()) return false
         const filePath = this.getPath(fileName)
+        if (!this.fileExists(filePath) && !this.canAddFile()) return false
 
-        if (this.fileExists(fileName)) {
+        if (this.fileExists(filePath)) {
             try {
                 const stats = fs.statSync(filePath);
                 if (stats.size + Buffer.byteLength(content, "utf-8") > FileHelper.MAX_FILE_SIZE) {
